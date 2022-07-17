@@ -1,8 +1,8 @@
 package main
 
 import (
+	"github.com/joho/godotenv"
 	rabbitmq "github.com/rabbitmq/amqp091-go"
-       "github.com/joho/godotenv"
 	"log"
 	"os"
 	"strings"
@@ -14,7 +14,7 @@ var LsQueue string
 var CoreQueue string
 
 func main() {
-        err := godotenv.Load(".env")
+	err := godotenv.Load(".env")
 	if err != nil {
 		log.Fatalf("Error loading .env file")
 	}
@@ -41,21 +41,21 @@ func InitRabbitMQ() error {
 	}
 
 	_, err = RabbitChannel.QueueDeclare(
-		LsQueue, 
-		false,   
-		false,   
-		false,   
-		false,   
-		nil,     
+		LsQueue,
+		false,
+		false,
+		false,
+		false,
+		nil,
 	)
 
 	_, err = RabbitChannel.QueueDeclare(
-		CoreQueue, 
-		false,     
-		false,     
-		false,     
-		false,     
-		nil,       
+		CoreQueue,
+		false,
+		false,
+		false,
+		false,
+		nil,
 	)
 
 	err = RabbitChannel.Confirm(false)
@@ -70,10 +70,10 @@ func InitRabbitMQ() error {
 func RPublishToCore(body string) error {
 	body = strings.ReplaceAll(body, "\"", "\\\"")
 	err := RabbitChannel.Publish(
-		"",        
-		CoreQueue, 
-		false,     
-		false,     
+		"",
+		CoreQueue,
+		false,
+		false,
 		amqp.Publishing{
 			DeliveryMode: amqp.Persistent,
 			ContentType:  "application/json",
