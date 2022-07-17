@@ -74,8 +74,8 @@ func RPublishToCore(body string) error {
 		CoreQueue,
 		false,
 		false,
-		amqp.Publishing{
-			DeliveryMode: amqp.Persistent,
+		rabbitmq.Publishing{
+			DeliveryMode: rabbitmq.Persistent,
 			ContentType:  "application/json",
 			Body:         []byte("\"" + body + "\""),
 		})
